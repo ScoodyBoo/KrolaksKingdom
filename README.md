@@ -1,4 +1,4 @@
-<h2>// How to launch:</h2>
+<h2>//> How to launch:</h2>
 <hr>
 <ol>
   <li> doubl clik run_developer.bat </li>

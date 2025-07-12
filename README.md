@@ -11,4 +11,8 @@
   <i>we are hosting a python livereload server for client with jinja templates and htmx to allow reuseable components and 
     interop with python for ease of dev ( idk i know python better than js sry guys js is poo anyway{}{{}}) 
   </i>
+  <li>update client.html etc</li>
+  <i>its pre straight foward tbh, see <a href="https://docs.google.com/document/d/12K5cjkujYt-3dJ0ex2gKlLU8HsPPKj0ymg7BpK73OQQ/edit?usp=sharing"> Google Docs For Krolaks Kingdom </a> </i>
+
+  <h3> Contact Author: joshualittin1999@gmail.com</h3>
 </ol>

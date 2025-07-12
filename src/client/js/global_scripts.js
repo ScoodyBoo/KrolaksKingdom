@@ -1,66 +1,64 @@
-// websok implementation
+// WebSocket implementation
 const socket = new WebSocket("ws://127.0.0.1:8453");
+
 socket.onopen = () => {
-	console.log("Connected to server");
-    statusText.textContent = "Server Status: Online";
+    console.log("Connected to server");
+    updateStatus("Server Status: Online");
 };
+
 socket.onclose = () => {
     console.log("Disconnected from server");
-    statusText.textContent = "Server Status: Offline";
+    updateStatus("Server Status: Offline");
 };
+
 socket.onerror = (error) => {
     console.error("WebSocket error:", error);
-    statusText.textContent = "Server Status: ⚠️ Error";
+    updateStatus("Server Status: ⚠️ Error");
 };
 
+function updateStatus(message) {
+    const statusText = document.getElementById("status");
+    if (statusText) {
+        statusText.textContent = message;
+    }
+}
 
+// Event Delegation for dynamically loaded content
+document.addEventListener('click', function(event) {
+    if (event.target.id === 'login-button') {
+        tryLogin();
+    }
+    if (event.target.id === 'goto-register-button') {
+        loadContent('register');
+    }
+    if (event.target.id === 'register-button') {
+        tryRegister();
+    }
+    if (event.target.id === 'goto-login-button') {
+        loadContent('login');
+    }
+});
 
-// Login & Auth Implementation
-const statusText = document.getElementById("status");
-const loginConnectionErrorText = document.getElementById("login-connection-error-text");
-const registerConnectionErrorText = document.getElementById("register-connection-error-text");
-const messagePanel = document.getElementById("message-panel")
-const registerPanel = document.getElementById("register-panel")
-const loginPanel = document.getElementById("login-panel")
-function showLoginPanel() {
-    loginPanel.style.display = "block";
-    
-}
-function showRegisterPanel() {
-    registerPanel.style.display = "block";
-    
-}
-function showMessagePanel() {
-    messagePanel.style.display = "block";
-}
-function hideAuthPanels() {
-    loginPanel.style.display = "none";
-    messagePanel.style.display = "none";
-    registerPanel.style.display = "none";
-}
 function tryRegister() {
     const username =        document.getElementById("regUsernameInput").value;
     const email =           document.getElementById("regEmailInput").value;
     const password =        document.getElementById("regPasswordInput").value;
     const passwordConfirm = document.getElementById("regPasswordConfirmInput").value;
-    // 🔹 Username length between 4 and 6
+
     if (username.length < 4 || username.length > 6) {
         alert("Username must be between 4 and 6 characters.");
         return;
     }
-    // 🔹 Email validation using simple regex
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(email)) {
         alert("Please enter a valid email address.");
         return;
     }
-    // 🔹 Password strength: min 8 chars, includes letter and number
     const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+]{8,}$/;
     if (!passwordPattern.test(password)) {
         alert("Password must be at least 8 characters long and include a letter and a number.");
         return;
     }
-    // 🔹 Confirm password
     if (password !== passwordConfirm) {
         alert("Passwords do not match.");
         return;
@@ -70,54 +68,60 @@ function tryRegister() {
         username:username,
         password: password,
         email: email,
-        
     };
     socket.send(JSON.stringify(payload));
 }
+
 function tryLogin() {
-    const loginUsernameInput = document.getElementById("loginUsernameInput")
-    const loginPasswordInput = document.getElementById("loginPasswordInput")
-    const username = loginUsernameInput.value;
-    const password = loginPasswordInput.value;
+    const loginUsernameInput = document.getElementById("loginUsernameInput").value;
+    const loginPasswordInput = document.getElementById("loginPasswordInput").value;
     
     const payload = {
         type:"login",
-        username:username,
-        password: password
+        username:loginUsernameInput,
+        password: loginPasswordInput
     };
     socket.send(JSON.stringify(payload));
-    
 }
 
-function gotoRegister() {
-    hideAuthPanels();
-    showRegisterPanel();
-    registerConnectionErrorText.textContent = "-"
-}
-function gotoLogin() {
-    
-    hideAuthPanels();
-    showLoginPanel();
-    loginConnectionErrorText.textContent = "-"
-    
-
-}
 socket.onmessage = (event) => {
-	// const li = document.createElement("li");
-	// li.textContent = event.data;
-	// document.getElementById("messages").appendChild(li);
-    loginConnectionErrorText.textContent = event.data
-    registerConnectionErrorText.textContent = event.data
+    const loginErrorText = document.getElementById("login-connection-error-text");
+    const registerErrorText = document.getElementById("register-connection-error-text");
+
+    if (loginErrorText) {
+        loginErrorText.textContent = event.data;
+    }
+    if (registerErrorText) {
+        registerErrorText.textContent = event.data;
+    }
+
+    if (event.data.includes("logged in")) {
+        showGameView();
+    }
 };
+
+function showGameView() {
+    const authContainer = document.getElementById('auth-container');
+    const gameContainer = document.getElementById('game-container');
+    const messagePanel = document.getElementById('message-panel');
+
+    authContainer.style.display = 'none';
+    gameContainer.style.display = 'block';
+    messagePanel.style.display = 'block';
+
+    fetch(`html/game_view.html`)
+        .then(response => response.text())
+        .then(data => {
+            gameContainer.innerHTML = data;
+        });
+}
+
 function sendMessage() {
 	const input = document.getElementById("messageInput");
     const payload = {
         type:"message",
-        username: username,
         message:input.value
     };
     socket.send(JSON.stringify(payload));
 	input.value = "";
 }
-
-gotoLogin()

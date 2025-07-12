@@ -54,7 +54,9 @@ def AddUser(username:str, email:str, password:str):
     global database
     database[username] = UserProfile(email, password)
 
-
+def LogoutAllUsers():
+    for username in database.keys():
+        database[username].SetOnline(False)
 
 #||> Database
 database_local_folder_path = "database_savedata"
@@ -76,6 +78,7 @@ def save_database():
         print(f"Database saved to file -> {database_filename}")
 
 load_database()
+LogoutAllUsers()
 # save_database()
 
 

@@ -4,6 +4,7 @@ server = Server()
 ##server.watch('client.html')
 server.watch('index.html')
 server.watch('css')
+server.watch('html/game_view.html')
 server.serve(
     root='.',         
     port=5500, 

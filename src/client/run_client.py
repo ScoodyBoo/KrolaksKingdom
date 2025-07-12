@@ -3,6 +3,7 @@ from livereload import Server
 server = Server()
 ##server.watch('client.html')
 server.watch('client.html')
+server.watch('css')
 server.serve(
     root='.',         
     port=5500, 

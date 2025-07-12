@@ -6,7 +6,7 @@
 <body>
 
 
-
+    <link rel="stylesheet" href="css/global_styles.css">
     <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.6/dist/htmx.min.js"></script>
     <!-- have a button POST a click via AJAX -->
     <!-- <button hx-post="/clicked" hx-swap="outerHTML">
@@ -145,7 +145,8 @@
                 type:"register",
                 username:username,
                 password: password,
-                email: email
+                email: email,
+                
             };
             socket.send(JSON.stringify(payload));
         }

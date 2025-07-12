@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Import HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.5"></script>
+    <title>Krolak Nations</title>
+</head>
+
+<body>
+    <div id="content">
+        <p> Hello From Deez </p>
+        <button hx-get="clicked.html"
+                hx-trigger="click"
+                hx-target="#content"
+                hx-swap="innerHTML">
+                Click Me!
+        </button>
+    </div>
+</body>
+
+
+
+
+
+
+</html>
+
+
+    <!-- have a button POST a click via AJAX -->
+    <!-- <button hx-post="/clicked" hx-swap="outerHTML">
+        Click Me
+    </button> -->
+    <!-- HTMX Example - issue HTTP GET request to /clicked , hx-swap will replace this entire content with the return of the HTTP GET HTML-->
+    <!-- <button hx-post="/clicked"
+        hx-trigger="click"
+        hx-target="#parent-div"
+        hx-swap="outerHTML">
+        Click Me!
+    </button> -->

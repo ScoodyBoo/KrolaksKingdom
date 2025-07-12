@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Admin Panel - Krolaks Kingdom</title>
+	<style>
+		body { font-family: sans-serif; padding: 20px; background: #111; color: #eee; }
+		input, button, select { margin: 4px; }
+		.hidden { filter: blur(5px); cursor: pointer; }
+		.visible { filter: none; cursor: pointer; }
+	</style>
+</head>
+<body>
+	<h2>🛠 Krolaks Kingdom Admin Panel</h2>
+
+	<button onclick="fetchUsers()">📥 Load Users</button>
+	<table id="userTable" border="1" style="margin-top: 10px; border-collapse: collapse;"></table>
+
+	<h3>Edit User</h3>
+	<input id="editUsername" placeholder="Username" readonly />
+	<input id="editEmail" placeholder="Email" />
+	<input id="editPassword" placeholder="Password" />
+	<input id="editSecretKey" placeholder="Secret Key" />
+	<select id="editOnlineStatus">
+		<option value="true">Online</option>
+		<option value="false">Offline</option>
+	</select>
+	<button onclick="updateUser()">💾 Update</button>
+
+	<script>
+		let socket = new WebSocket("ws://localhost:8453");
+
+		socket.onopen = () => console.log("Connected to server.");
+
+		socket.onmessage = (event) => {
+			let data = JSON.parse(event.data);
+			if (data.type === "user_list") {
+				const table = document.getElementById("userTable");
+				table.innerHTML = "<tr><th>Username</th><th>Email</th><th>Password</th><th>Secret Key</th><th>Online</th><th>Action</th></tr>";
+				for (const [username, info] of Object.entries(data.users)) {
+					table.innerHTML += `
+						<tr>
+							<td>${username}</td>
+							<td>${info.email}</td>
+							<td><span class="hidden" onclick="toggleVisibility(this)">${info.password}</span></td>
+							<td><span class="hidden" onclick="toggleVisibility(this)">${info.secret_key}</span></td>
+							<td>${info.online_status}</td>
+							<td><button onclick='editUser(${JSON.stringify({username, ...info})})'>Edit</button></td>
+						</tr>
+					`;
+				}
+			} else {
+				alert("Server: " + event.data);
+			}
+		};
+
+		function toggleVisibility(el) {
+			el.classList.toggle("hidden");
+			el.classList.toggle("visible");
+		}
+
+		function fetchUsers() {
+			socket.send(JSON.stringify({ type: "get_users" }));
+		}
+
+		function editUser(user) {
+			document.getElementById("editUsername").value = user.username;
+			document.getElementById("editEmail").value = user.email;
+			document.getElementById("editPassword").value = user.password;
+			document.getElementById("editSecretKey").value = user.secret_key;
+			document.getElementById("editOnlineStatus").value = user.online_status;
+		}
+
+		function updateUser() {
+			const username = document.getElementById("editUsername").value;
+			const email = document.getElementById("editEmail").value;
+			const password = document.getElementById("editPassword").value;
+			const secret_key = document.getElementById("editSecretKey").value;
+			const online_status = document.getElementById("editOnlineStatus").value === "true";
+
+			socket.send(JSON.stringify({
+				type: "update_user",
+				username,
+				email,
+				password,
+				secret_key,
+				online_status
+			}));
+		}
+	</script>
+</body>
+</html>

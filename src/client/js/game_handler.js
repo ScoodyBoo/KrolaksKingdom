@@ -37,6 +37,7 @@ function sendMessage() {
     const input = document.getElementById("messageInput");
     const payload = {
         type:"message",
+        from: window.currentUser,
         message:input.value
     };
     window.socket.send(JSON.stringify(payload));

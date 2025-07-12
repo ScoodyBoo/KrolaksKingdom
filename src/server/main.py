@@ -241,11 +241,11 @@ async def handle_connections(websocket):
                     await websocket.send("Server Online")
 
                 elif data.get("type") == "message":
-                    messag = data.get("message")
-                    print(f"Broadcasting: {messag}")
+                    print(f"Broadcasting: {data}")
                     await broadcast(json.dumps({
                         "type": "message",
-                        "message": messag
+                        "from": str(data.get("from")),
+                        "message": str(data.get("message"))
                     }))
 
             #|> If Not Json

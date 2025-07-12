@@ -1,11 +1,29 @@
-<div id="game-view">
+<head>
 
+</head>
+<div id="game-view">
+    <link rel="stylesheet" href="css/global_styles.css">
     <div class = "game_body">
-        <div id="message-panel">
-            <button id="logout-button">Logout</button>
-            <input id="messageInput" placeholder="Type a message..." />
-            <button id="send-message-button">Send</button>
-            <ul id="messages"></ul>
+
+        <div class="game_topbar">
+            <button class="game_message_panel_logout_button" id="logout-button">Logout</button>
+            <button class="game_message_panel_logout_button">My Profile</button>
+            
         </div>
+
+        <hr>
+        <br>
+        <div class="game_message_input_panel">
+            
+            <input type="search" class="game_message_panel_input" id="messageInput" placeholder="Type a message..." />
+            <button class="game_message_panel_send_button" id="send-message-button">Send</button>
+        </div>
+        <div id="message-panel" >
+            <ul id="chat-messages" class="game_message_panel">
+                <div><strong>You</strong> Logged In!</div>
+            </ul>
+        </div>
+
+
     </div>
 </div>

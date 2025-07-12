@@ -28,6 +28,8 @@ input {
 
 
 
+
+
 .title_text {
     text-align: center;
     padding: 4px 4px;
@@ -69,4 +71,56 @@ input {
     font-style: italic;
     font-size: 0.95rem;
     
+}
+
+
+
+
+
+.game_body {
+    background-color: rgba(127, 255, 212, 0.233);
+    margin: 8px 8px;
+    padding:  8px 8px;
+
+}
+.game_topbar {
+
+}
+
+
+
+
+.game_message_panel {
+
+    background-color: rgba(0, 0, 0, 0.342);
+    min-height: 256px;
+    border-radius: 32px;
+    max-width: 256px;
+}
+
+
+
+.game_message_input_row {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	gap: 8px; /* spacing between buttons and input */
+	width: 100%;
+}
+.game_message_panel_input {
+
+    height: 32px;
+    width: 256px;
+}
+.game_message_panel_send_button {
+
+    
+    height: 32px;
+    width: 128px;
+}
+.game_message_panel_logout_button {
+
+    
+    height: 32px;
 }

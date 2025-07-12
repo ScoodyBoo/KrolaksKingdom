@@ -2,7 +2,7 @@
     "suggon": {
         "email": "joshualittin1999@gmail.com",
         "password": "Password23",
-        "online_status": true,
+        "online_status": false,
         "secret_key": "LmWL~-Xise-52456"
     },
     "user": {
@@ -10,5 +10,11 @@
         "password": "Password23",
         "online_status": false,
         "secret_key": "st7rm-@carl!t-90651"
+    },
+    "ronald": {
+        "email": "joshualittin1999@gmail.com",
+        "password": "Password23",
+        "online_status": false,
+        "secret_key": "turYS~-zomb@e-68B7K"
     }
 }

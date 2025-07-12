@@ -154,12 +154,19 @@ def print_connected_users():
     print(f"registered_users {database.keys()}")
     print(f"connected_soks {connected_clients}")
 
+async def broadcast(message: str):
+	for client in connected_clients.copy():
+		try:
+			await client.send(message)
+		except Exception as e:
+			print(f"Failed to send to a client: {e}")
+
 async def handle_connections(websocket):
     connected_clients.add(websocket)
     try:
         async for message in websocket:
             #|> On Message Recieved
-            #print(f"Raw message: {message}")
+            print(f"Raw message: {message}")
             
             #|> Is Message Json
             try:
@@ -198,7 +205,14 @@ async def handle_connections(websocket):
                         print(f"{username} tried to login but doesnt exist!")
                         
 
-                elif data.get("type") == "get_users":
+                elif data.get("type") == "logout":
+                    username = data.get("username")
+                    if CheckUserExists(username):
+                        database[username].SetOnline(False)
+                        save_database()
+                        print(f"Logged out {username}")
+                    else:
+                        print(f"Attempted to logout non-existent user: {username}")
                     user_data = {
                         u: {
                             "email": p.email,
@@ -223,8 +237,17 @@ async def handle_connections(websocket):
                         await websocket.send("user not found")
 
 
-             
-            
+                elif data.get("type") == "ping_online":
+                    await websocket.send("Server Online")
+
+                elif data.get("type") == "message":
+                    messag = data.get("message")
+                    print(f"Broadcasting: {messag}")
+                    await broadcast(json.dumps({
+                        "type": "message",
+                        "message": messag
+                    }))
+
             #|> If Not Json
             except json.JSONDecodeError:
                 await websocket.send("Invalid JSON.")

@@ -3,57 +3,21 @@
 <head>
     <link rel="stylesheet" href="css/global_styles.css">
     
+    <script src="js/websocket_handler.js" defer></script>
+    <script src="js/content_loader.js" defer></script>
+    <script src="js/auth_handler.js" defer></script>
+    <script src="js/game_handler.js" defer></script>
     <script src="js/global_scripts.js" defer></script>
 
 	<title>Krolak Nations</title>
     
 
     
-</head>
-<body>
-    <div id="page_content" class="page_content">
-        <h1 class="title_text">Krolak Nations</h1>
-        <p class="version_text">Release 0.1.0 - tech alpha</p>
-        
-        <div id="auth-container">
-            <!-- The login/register content will be loaded here -->
-        </div>
+</head><body><div id="page_content" class="page_content">
 
-        <div id="game-container" style="display: none;">
-            <!-- The game view will be loaded here -->
-        </div>
-
-        <div id="message-panel" style="display: none;">
-            <input id="messageInput" placeholder="Type a message..." />
-            <button onclick="sendMessage()">Send</button>
-            <ul id="messages"></ul>
-        </div>
-    </div>
-
-    <script>
-        function loadContent(page) {
-            const container = document.getElementById('auth-container');
-            fetch(`html/${page}.html`)
-                .then(response => response.text())
-                .then(data => {
-                    container.innerHTML = data;
-                });
-        }
-
-        // Load the login page by default
-        window.onload = () => loadContent('login');
-    </script>
-
-
+    <h1 class="title_text">Krolak Nations</h1>
+    <p class="version_text">Release 0.1.0 - tech alpha</p>
+    <div id="auth-container"></div>
+    <div id="game-container"></div>
     
-
-	
-
-
-<!-- UXWFqxKU2qA -->
-    
-
-
-
-</body>
-</html>
+</div></body></html>

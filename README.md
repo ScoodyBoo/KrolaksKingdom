@@ -16,3 +16,13 @@
 
   <h3> Contact Author: joshualittin1999@gmail.com</h3>
 </ol>
+<!DOCTYPE html>
+<html>
+<body>
+	<p>
+		<i>Its pretty straightforward tbh, see 
+			<a href="https://google.com" target="_blank" rel="noopener noreferrer">Google Docs For Krolaks Kingdom</a>
+		</i>
+	</p>
+</body>
+</html>
